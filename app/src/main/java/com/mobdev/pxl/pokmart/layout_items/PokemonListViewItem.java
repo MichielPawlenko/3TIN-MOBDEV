@@ -15,6 +15,9 @@ public class PokemonListViewItem {
 
     public String name;
     public Bitmap image;
+    public String type1;
+    public String type2;
+    
 
     public PokemonListViewItem(URL url) {
         try {
@@ -22,7 +25,6 @@ public class PokemonListViewItem {
             JSONObject jsonItem = new JSONObject(jsonString);
             JSONObject spriteObject = jsonItem.getJSONObject("sprites");
             String spriteString = spriteObject.getString("front_default");
-            jsonItem = jsonItem.getJSONObject("pokemon");
             name = jsonItem.getString("name").toUpperCase();
             image = UrlBitmapLoader.LoadBitmapFromUrl(new URL(spriteString));
         } catch (IOException e) {

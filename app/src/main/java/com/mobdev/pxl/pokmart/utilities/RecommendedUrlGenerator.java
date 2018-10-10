@@ -14,7 +14,7 @@ public class RecommendedUrlGenerator {
 
     public static URL GenerateUrl() {
         try {
-            return new URL("https://pokeapi.co/api/v2/pokemon-form/" + RANDOM_NUMBER.nextInt(750) + "/");
+            return new URL("https://pokeapi.co/api/v2/pokemon/" + RANDOM_NUMBER.nextInt(750) + "/");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
