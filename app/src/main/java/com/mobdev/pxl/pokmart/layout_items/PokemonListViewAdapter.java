@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobdev.pxl.pokmart.R;
+import com.mobdev.pxl.pokmart.utilities.UrlBitmapLoader;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class PokemonListViewAdapter extends ArrayAdapter<Pokemon> {
@@ -34,7 +37,11 @@ public class PokemonListViewAdapter extends ArrayAdapter<Pokemon> {
         Pokemon currentItem = getItem(position);
 
         ImageView image = itemView.findViewById(R.id.pokemonListItemImage);
-        image.setImageBitmap(currentItem.sprite);
+        try {
+            image.setImageBitmap(UrlBitmapLoader.LoadBitmapFromUrl(new URL(currentItem.sprite)));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         TextView name = itemView.findViewById(R.id.pokemonListItemText);
         name.setText(currentItem.name);

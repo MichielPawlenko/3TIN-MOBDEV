@@ -11,9 +11,11 @@ import android.widget.TextView;
 import com.mobdev.pxl.pokmart.R;
 import com.mobdev.pxl.pokmart.utilities.HttpResponseLoader;
 import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
+import com.mobdev.pxl.pokmart.utilities.UrlBitmapLoader;
 import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -61,7 +63,11 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
         pokemonName.setText(mPokemonList.get(position).name);
 
         ImageView pokemonImage = currentItem.findViewById(R.id.pokemonListItemImage);
-        pokemonImage.setImageBitmap(mPokemonList.get(position).sprite);
+        try {
+            pokemonImage.setImageBitmap(UrlBitmapLoader.LoadBitmapFromUrl(new URL(mPokemonList.get(position).sprite)));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
 
     }

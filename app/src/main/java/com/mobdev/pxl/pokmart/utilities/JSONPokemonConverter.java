@@ -19,10 +19,8 @@ public class JSONPokemonConverter {
             pokemon.name = jsonItem.getString("name").toUpperCase();
             pokemon.baseXp = jsonItem.getInt("base_experience");
             pokemon.id = jsonItem.getInt("id");
-            pokemon.sprite = UrlBitmapLoader.LoadBitmapFromUrl(new URL(spriteString));
+            pokemon.sprite = spriteString;
             return pokemon;
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
