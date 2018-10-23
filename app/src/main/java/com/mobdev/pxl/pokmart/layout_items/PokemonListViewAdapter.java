@@ -12,12 +12,12 @@ import com.mobdev.pxl.pokmart.R;
 
 import java.util.List;
 
-public class PokemonListViewAdapter extends ArrayAdapter<PokemonListViewItem> {
+public class PokemonListViewAdapter extends ArrayAdapter<Pokemon> {
 
     private int resourceLayout;
     private Context mContext;
 
-    public PokemonListViewAdapter(Context context, int resource, List<PokemonListViewItem> items) {
+    public PokemonListViewAdapter(Context context, int resource, List<Pokemon> items) {
         super(context, resource, items);
         mContext = context;
         resourceLayout = resource;
@@ -31,10 +31,10 @@ public class PokemonListViewAdapter extends ArrayAdapter<PokemonListViewItem> {
             itemView = inflater.inflate(resourceLayout, null);
         }
 
-        PokemonListViewItem currentItem = getItem(position);
+        Pokemon currentItem = getItem(position);
 
         ImageView image = itemView.findViewById(R.id.pokemonListItemImage);
-        image.setImageBitmap(currentItem.image);
+        image.setImageBitmap(currentItem.sprite);
 
         TextView name = itemView.findViewById(R.id.pokemonListItemText);
         name.setText(currentItem.name);

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">PokéMart</string>
     <string name="start_button">Start</string>
+    <string name="title_pokemon_list">Pokemons</string>
+    <string name="title_pokemon_detail">Pokemon Detail</string>
+    <string name="title_activity_pokemon_list_view">PokemonListView</string>
 </resources>

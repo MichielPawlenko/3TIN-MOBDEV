@@ -14,10 +14,15 @@
         <activity android:name=".Shop_Start_Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Shop_Main_Screen"/>
+        <activity android:name=".Shop_Main_Screen" />
+        <activity
+            android:name=".PokemonListView"
+            android:label="@string/title_activity_pokemon_list_view"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

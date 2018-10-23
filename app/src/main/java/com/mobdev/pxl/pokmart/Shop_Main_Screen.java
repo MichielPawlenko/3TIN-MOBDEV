@@ -9,22 +9,21 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import com.mobdev.pxl.pokmart.layout_items.Pokemon;
 import com.mobdev.pxl.pokmart.layout_items.PokemonListViewAdapter;
 import com.mobdev.pxl.pokmart.layout_items.PokemonListViewItem;
 import com.mobdev.pxl.pokmart.utilities.HttpResponseLoader;
-import com.mobdev.pxl.pokmart.utilities.RecommendedUrlGenerator;
+import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
+import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Shop_Main_Screen extends AppCompatActivity {
 
-    List<PokemonListViewItem> itemsList = new ArrayList<PokemonListViewItem>();
+    List<Pokemon> itemsList = new ArrayList<Pokemon>();
     PokemonListViewAdapter adapter;
     ListView recommendedListView;
     DrawerLayout mainScreenDrawer;
@@ -58,14 +57,16 @@ public class Shop_Main_Screen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class AddItemsListTask extends AsyncTask<Void, Void, List<PokemonListViewItem>> {
+    public class AddItemsListTask extends AsyncTask<Void, Void, List<Pokemon>> {
 
         @Override
-        protected List<PokemonListViewItem> doInBackground(Void... voids) {
+        protected List<Pokemon> doInBackground(Void... voids) {
             try {
-                List<PokemonListViewItem> returnList = new ArrayList<PokemonListViewItem>();
+                List<Pokemon> returnList = new ArrayList<Pokemon>();
                 for (int x = 0; x < 3; x++) {
-                    PokemonListViewItem item = new PokemonListViewItem(RecommendedUrlGenerator.GenerateUrl());
+                    URL url = UrlGenerator.GenerateRecommendedUrl();
+                    String jsonString = HttpResponseLoader.GetResponse(url);
+                    Pokemon item = JSONPokemonConverter.GeneratePokemon(jsonString);
                     returnList.add(item);
                 }
 
@@ -77,7 +78,7 @@ public class Shop_Main_Screen extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<PokemonListViewItem> items) {
+        protected void onPostExecute(List<Pokemon> items) {
             itemsList = new ArrayList<>(items);
             recommendedListView = (ListView) findViewById(R.id.recommendedList);
             adapter.addAll(itemsList);
