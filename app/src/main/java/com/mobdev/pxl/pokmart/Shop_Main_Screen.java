@@ -1,6 +1,9 @@
 package com.mobdev.pxl.pokmart;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -33,9 +36,24 @@ public class Shop_Main_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop__main__screen);
 
-        mainScreenDrawer = findViewById(R.id.mainScreenDrawer);
-        Toolbar toolbar = findViewById(R.id.mainScreenToolbar);
+        mainScreenDrawer = findViewById(R.id.generationDrawer);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        mainScreenDrawer.closeDrawers();
+
+                        Context context = Shop_Main_Screen.this;
+                        Intent intent = new Intent(context, PokemonListView.class);
+                        startActivity(intent);
+
+                        return true;
+                    }
+                });
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);

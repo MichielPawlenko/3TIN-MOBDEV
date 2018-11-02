@@ -4,4 +4,7 @@
     <string name="title_pokemon_list">Pokemons</string>
     <string name="title_pokemon_detail">Pokemon Detail</string>
     <string name="title_activity_pokemon_list_view">PokemonListView</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

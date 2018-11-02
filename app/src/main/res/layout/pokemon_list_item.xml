@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pokemonListItemCard"
-    android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    card_view:cardCornerRadius="4dp" >
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    card_view:cardCornerRadius="4dp">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="500dp"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:scaleType="fitXY"
-        android:id="@+id/pokemonListItemImage"/>
-
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/pokemonListItemText"/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/pokemonListItemImage"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pokemonListItemText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/pokemonPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:textSize="32dp" />
+        </LinearLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>

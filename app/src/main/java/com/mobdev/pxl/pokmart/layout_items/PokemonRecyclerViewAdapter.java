@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,13 +16,17 @@ import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
     private List<Pokemon> mPokemonList;
+    private onItemClickListener clickListener;
 
-    public PokemonRecyclerViewAdapter() {
-        for(int x = 0; x < 5; x++) {
+    public PokemonRecyclerViewAdapter(onItemClickListener listener) {
+        clickListener = listener;
+        mPokemonList = new ArrayList<Pokemon>();
+        for(int x = 0; x < 10; x++) {
             URL url = UrlGenerator.GeneratePokemonUrl(x + 1);
             try {
                 String response = HttpResponseLoader.GetResponse(url);
@@ -35,7 +40,7 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
 
     public static class pokemonViewHolder extends RecyclerView.ViewHolder {
         private CardView mListViewItem;
-        public pokemonViewHolder(CardView listViewItem) {
+        public pokemonViewHolder(final CardView listViewItem) {
             super(listViewItem);
             mListViewItem = listViewItem;
         }
@@ -56,12 +61,24 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
                 (PokemonRecyclerViewAdapter.pokemonViewHolder) viewHolder;
         
         CardView currentItem = pokemonViewHolder.mListViewItem;
+        final Pokemon currentListItem = mPokemonList.get(position);
+
+        currentItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(currentListItem);
+            }
+        });
 
         TextView pokemonName = currentItem.findViewById(R.id.pokemonListItemText);
-        pokemonName.setText(mPokemonList.get(position).name);
+        String name = currentListItem.id + "# - " + currentListItem.name.toUpperCase();
+        pokemonName.setText(name);
 
         ImageView pokemonImage = currentItem.findViewById(R.id.pokemonListItemImage);
-        pokemonImage.setImageBitmap(mPokemonList.get(position).sprite);
+        pokemonImage.setImageBitmap(currentListItem.sprite);
+
+        TextView pokemonPrice = currentItem.findViewById(R.id.pokemonPrice);
+        pokemonPrice.setText(currentListItem.baseXp * 4 + "$");
 
 
     }
@@ -69,5 +86,9 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return mPokemonList.size();
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(Pokemon item);
     }
 }
