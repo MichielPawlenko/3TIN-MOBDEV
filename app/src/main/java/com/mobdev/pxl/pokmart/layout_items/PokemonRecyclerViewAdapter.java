@@ -12,9 +12,11 @@ import android.widget.TextView;
 import com.mobdev.pxl.pokmart.R;
 import com.mobdev.pxl.pokmart.utilities.HttpResponseLoader;
 import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
+import com.mobdev.pxl.pokmart.utilities.UrlBitmapLoader;
 import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +77,11 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
         pokemonName.setText(name);
 
         ImageView pokemonImage = currentItem.findViewById(R.id.pokemonListItemImage);
-        pokemonImage.setImageBitmap(currentListItem.sprite);
+        try {
+            pokemonImage.setImageBitmap(UrlBitmapLoader.LoadBitmapFromUrl(new URL(mPokemonList.get(position).sprite)));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         TextView pokemonPrice = currentItem.findViewById(R.id.pokemonPrice);
         pokemonPrice.setText(currentListItem.baseXp * 4 + "$");
