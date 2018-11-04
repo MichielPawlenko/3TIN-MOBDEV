@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.mobdev.pxl.pokmart.data.PokemonRepository;
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
 import com.mobdev.pxl.pokmart.layout_items.PokemonListViewAdapter;
 import com.mobdev.pxl.pokmart.layout_items.PokemonListViewItem;
@@ -27,6 +28,7 @@ import java.util.List;
 public class Shop_Main_Screen extends AppCompatActivity {
 
     List<Pokemon> itemsList = new ArrayList<Pokemon>();
+    PokemonRepository mRepo;
     PokemonListViewAdapter adapter;
     ListView recommendedListView;
     DrawerLayout mainScreenDrawer;
@@ -35,6 +37,8 @@ public class Shop_Main_Screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop__main__screen);
+
+        mRepo = new PokemonRepository(getApplicationContext());
 
         mainScreenDrawer = findViewById(R.id.generationDrawer);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -49,6 +53,8 @@ public class Shop_Main_Screen extends AppCompatActivity {
 
                         Context context = Shop_Main_Screen.this;
                         Intent intent = new Intent(context, PokemonListView.class);
+                        intent.putExtra("selectedItem", menuItem.getItemId());
+                        intent.putExtra("generation", menuItem.getOrder());
                         startActivity(intent);
 
                         return true;
@@ -82,9 +88,11 @@ public class Shop_Main_Screen extends AppCompatActivity {
             try {
                 List<Pokemon> returnList = new ArrayList<Pokemon>();
                 for (int x = 0; x < 3; x++) {
-                    URL url = UrlGenerator.GenerateRecommendedUrl();
+ /*                   URL url = UrlGenerator.GenerateRecommendedUrl();
                     String jsonString = HttpResponseLoader.GetResponse(url);
                     Pokemon item = JSONPokemonConverter.GeneratePokemon(jsonString);
+                    */
+                    Pokemon item = mRepo.getPokemonById(x+1);
                     returnList.add(item);
                 }
 

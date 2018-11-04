@@ -23,6 +23,7 @@ public class HttpResponseLoader {
             }
         } finally {
             urlConnection.disconnect();
+
         }
 
     }

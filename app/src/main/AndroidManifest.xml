@@ -24,7 +24,8 @@
             android:label="@string/app_name"
             android:parentActivityName=".Shop_Main_Screen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".PokemonDetailActivity"></activity>
+        <activity android:name=".PokemonDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

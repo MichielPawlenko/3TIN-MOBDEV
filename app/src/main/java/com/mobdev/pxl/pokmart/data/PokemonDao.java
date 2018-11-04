@@ -26,4 +26,15 @@ public interface PokemonDao {
 
     @Delete
     void delete(Pokemon pokemon);
+
+    @Query("SELECT * FROM pokemon WHERE id BETWEEN 0 AND 151")
+    List<Pokemon> getGeneration1Pokemon();
+
+    @Query("SELECT * FROM pokemon WHERE id BETWEEN 152 AND 251")
+    List<Pokemon> getGeneration2Pokemon();
+
+    @Query("SELECT * FROM pokemon WHERE id BETWEEN 252 AND 386")
+    List<Pokemon> getGeneration3Pokemon();
+
+
 }

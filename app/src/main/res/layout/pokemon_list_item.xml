@@ -22,21 +22,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/pokemonListItemText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:textSize="18dp" />
 
-            <TextView
+           <TextView
                 android:id="@+id/pokemonPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:layout_gravity="end"
+                android:textAlignment="viewEnd"
                 android:textSize="32dp" />
         </LinearLayout>
     </LinearLayout>
