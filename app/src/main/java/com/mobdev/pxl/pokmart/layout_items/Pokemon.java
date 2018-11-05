@@ -1,10 +1,8 @@
 package com.mobdev.pxl.pokmart.layout_items;
 
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
-import android.graphics.Bitmap;
 
 import com.mobdev.pxl.pokmart.data.ArrayListConverter;
 

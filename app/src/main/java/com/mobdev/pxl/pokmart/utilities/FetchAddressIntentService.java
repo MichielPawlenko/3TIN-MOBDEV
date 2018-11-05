@@ -10,8 +10,6 @@ import android.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.mobdev.pxl.pokmart.R;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
