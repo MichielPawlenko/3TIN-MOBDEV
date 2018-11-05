@@ -25,24 +25,29 @@
         android:id="@+id/searchView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
         android:iconifiedByDefault="false"
         android:orientation="horizontal"
         android:queryHint="Search for Pokémon..."
         android:background="@drawable/black_border"/>
 
-    <ListView
-        android:id="@+id/recommendedList"
+   <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pokémon Of The Day:"
+        android:textSize="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pokemonRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_margin="32dp"
         android:divider="@null"
-        android:dividerHeight="4dp"/>
+        android:dividerHeight="4dp"
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>
 

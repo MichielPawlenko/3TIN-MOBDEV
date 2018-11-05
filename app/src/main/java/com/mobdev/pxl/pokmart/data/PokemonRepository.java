@@ -15,6 +15,10 @@ public class PokemonRepository {
         pokemonDao = database.pokemonDao();
     }
 
+    public int getSize() {
+        return pokemonDao.getSize();
+    }
+
     public List<Pokemon> getAll() {
         return pokemonDao.getAll();
     }

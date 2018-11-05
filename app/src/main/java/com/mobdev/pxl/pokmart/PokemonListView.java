@@ -13,20 +13,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.mobdev.pxl.pokmart.data.PokemonRepository;
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
 import com.mobdev.pxl.pokmart.layout_items.PokemonRecyclerViewAdapter;
-import com.mobdev.pxl.pokmart.utilities.HttpResponseLoader;
-import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
-import com.mobdev.pxl.pokmart.utilities.UrlBitmapLoader;
-import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +87,7 @@ public class PokemonListView extends AppCompatActivity {
             }
         }, mPokemonList);
 
-        new initializeAdapter().execute();
+        new initializeAdapterItems().execute();
     }
 
     @Override
@@ -110,7 +102,7 @@ public class PokemonListView extends AppCompatActivity {
     }
 
 
-    private class initializeAdapter extends AsyncTask<Void, Void, Void> {
+    private class initializeAdapterItems extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {

@@ -35,7 +35,23 @@ public class PokemonDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mPokemon = (Pokemon) intent.getSerializableExtra("pokemon");
         ((TextView) findViewById(R.id.pokemonNameTextView)).setText(mPokemon.name);
-        ((TextView) findViewById(R.id.pokemonPriceTextView)).setText(mPokemon.baseXp * 4 + "$");
+        ((TextView) findViewById(R.id.pokemonPriceTextView)).setText(mPokemon.baseXp + "$");
+        String typeString = "Type: ";
+        if(mPokemon.types.size() == 2) {
+            typeString = "Types: " + mPokemon.types.get(0).toUpperCase() + " and " + mPokemon.types.get(1).toUpperCase();
+        } else {
+            typeString += mPokemon.types.get(0).toUpperCase();
+        }
+        ((TextView) findViewById(R.id.pokemonType)).setText(typeString);
+        String abilityString = "Abilities: \n\n";
+        for(String ability : mPokemon.abilities) {
+            abilityString += "+" + ability.toUpperCase() + "\n\n";
+        }
+
+        ((TextView) findViewById(R.id.pokemonAbilities)).setText(abilityString);
+        ((TextView) findViewById(R.id.pokemonHeight)).setText("Height: " + mPokemon.height / 10 + " m");
+        ((TextView) findViewById(R.id.pokemonWeight)).setText("Weight: " + mPokemon.weight / 10 + " kg");
+
         new loadPokemonImage().execute();
     }
 

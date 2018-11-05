@@ -21,10 +21,12 @@ public class Pokemon implements Serializable {
 
     @TypeConverters(ArrayListConverter.class)
     public ArrayList<String> types;
-    public int baseXp;
 
-    @Embedded
-    public Ability ability;
+    @TypeConverters(ArrayListConverter.class)
+    public ArrayList<String> abilities;
+    public int baseXp;
+    public double height;
+    public double weight;
     public String sprite;
 
 }

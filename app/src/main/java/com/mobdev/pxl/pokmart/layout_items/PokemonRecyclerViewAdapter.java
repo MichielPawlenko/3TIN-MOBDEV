@@ -1,6 +1,5 @@
 package com.mobdev.pxl.pokmart.layout_items;
 
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobdev.pxl.pokmart.R;
-import com.mobdev.pxl.pokmart.utilities.HttpResponseLoader;
-import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
-import com.mobdev.pxl.pokmart.utilities.UrlBitmapLoader;
-import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
@@ -33,6 +24,7 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
 
     public static class pokemonViewHolder extends RecyclerView.ViewHolder {
         private CardView mListViewItem;
+
         public pokemonViewHolder(final CardView listViewItem) {
             super(listViewItem);
             mListViewItem = listViewItem;
@@ -52,7 +44,7 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         pokemonViewHolder pokemonViewHolder =
                 (PokemonRecyclerViewAdapter.pokemonViewHolder) viewHolder;
-        
+
         CardView currentItem = pokemonViewHolder.mListViewItem;
         final Pokemon currentListItem = mPokemonList.get(position);
 
@@ -71,7 +63,7 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
 
 
         TextView pokemonPrice = currentItem.findViewById(R.id.pokemonPrice);
-        pokemonPrice.setText(currentListItem.baseXp * 4 + "$");
+        pokemonPrice.setText(currentListItem.baseXp + "$");
 
     }
 

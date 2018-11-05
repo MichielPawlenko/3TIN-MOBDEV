@@ -9,28 +9,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.mobdev.pxl.pokmart.data.PokemonRepository;
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
-import com.mobdev.pxl.pokmart.layout_items.PokemonListViewAdapter;
-import com.mobdev.pxl.pokmart.layout_items.PokemonListViewItem;
-import com.mobdev.pxl.pokmart.utilities.HttpResponseLoader;
-import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
-import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
+import com.mobdev.pxl.pokmart.layout_items.PokemonRecyclerViewAdapter;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Shop_Main_Screen extends AppCompatActivity {
 
-    List<Pokemon> itemsList = new ArrayList<Pokemon>();
+    List<Pokemon> mPokemonList;
     PokemonRepository mRepo;
-    PokemonListViewAdapter adapter;
-    ListView recommendedListView;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
     DrawerLayout mainScreenDrawer;
 
     @Override
@@ -38,11 +38,33 @@ public class Shop_Main_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop__main__screen);
 
-        mRepo = new PokemonRepository(getApplicationContext());
-
-        mainScreenDrawer = findViewById(R.id.generationDrawer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        mRepo = new PokemonRepository(getApplicationContext());
+        mPokemonList = new ArrayList<Pokemon>();
+        mainScreenDrawer = findViewById(R.id.generationDrawer);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.pokemonRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerView.getContext(), mLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(divider);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new PokemonRecyclerViewAdapter(new PokemonRecyclerViewAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(Pokemon item) {
+                Intent intent = new Intent(getApplicationContext(), PokemonDetailActivity.class);
+                intent.putExtra("pokemon", item);
+                startActivity(intent);
+            }
+        }, mPokemonList);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -60,13 +82,7 @@ public class Shop_Main_Screen extends AppCompatActivity {
                         return true;
                     }
                 });
-
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
-        adapter = new PokemonListViewAdapter(this, R.layout.pokemon_list_item, itemsList);
-        new AddItemsListTask().execute();
+        new loadAdapterItems().execute();
 
         }
 
@@ -81,22 +97,15 @@ public class Shop_Main_Screen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class AddItemsListTask extends AsyncTask<Void, Void, List<Pokemon>> {
+    public class loadAdapterItems extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected List<Pokemon> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             try {
-                List<Pokemon> returnList = new ArrayList<Pokemon>();
+                Random rng = new Random();
                 for (int x = 0; x < 3; x++) {
- /*                   URL url = UrlGenerator.GenerateRecommendedUrl();
-                    String jsonString = HttpResponseLoader.GetResponse(url);
-                    Pokemon item = JSONPokemonConverter.GeneratePokemon(jsonString);
-                    */
-                    Pokemon item = mRepo.getPokemonById(x+1);
-                    returnList.add(item);
+                    mPokemonList.add(mRepo.getPokemonById(rng.nextInt(385) + 1));
                 }
-
-                return returnList;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -104,11 +113,8 @@ public class Shop_Main_Screen extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<Pokemon> items) {
-            itemsList = new ArrayList<>(items);
-            recommendedListView = (ListView) findViewById(R.id.recommendedList);
-            adapter.addAll(itemsList);
-            recommendedListView.setAdapter(adapter);
+        protected void onPostExecute(Void nullargs) {
+            mRecyclerView.setAdapter(mAdapter);
         }
     }
 }

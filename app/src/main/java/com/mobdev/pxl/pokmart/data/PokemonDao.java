@@ -12,6 +12,9 @@ import java.util.List;
 
 @Dao
 public interface PokemonDao {
+    @Query("SELECT COUNT(*) FROM pokemon")
+    int getSize();
+
     @Query("SELECT * FROM pokemon")
     List<Pokemon> getAll();
 
