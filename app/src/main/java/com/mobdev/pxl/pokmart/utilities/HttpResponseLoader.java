@@ -1,5 +1,6 @@
 package com.mobdev.pxl.pokmart.utilities;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -9,22 +10,21 @@ import java.util.Scanner;
 public class HttpResponseLoader {
     public static String GetResponse(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        BufferedInputStream in = null;
         try {
-            InputStream in = urlConnection.getInputStream();
+            in = new BufferedInputStream(urlConnection.getInputStream());
 
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
-
-            boolean hasInput = scanner.hasNext();
-            if (hasInput) {
-                return scanner.next();
-            } else {
-                return null;
-            }
+            return scanner.next();
         } finally {
-            urlConnection.disconnect();
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
 
+            if (in != null) {
+                in.close();
+            }
         }
-
     }
 }

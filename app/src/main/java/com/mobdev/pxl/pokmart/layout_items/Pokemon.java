@@ -2,7 +2,6 @@ package com.mobdev.pxl.pokmart.layout_items;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.graphics.Bitmap;
@@ -29,4 +28,7 @@ public class Pokemon implements Serializable {
     public double weight;
     public String sprite;
 
+    public int getCost() {
+        return baseXp * 4;
+    }
 }

@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
 
-@Database(entities = {Pokemon.class}, version = 1)
+@Database(entities = {Pokemon.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract PokemonDao pokemonDao();
 
@@ -22,6 +22,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 }
             }
         }
+
         return INSTANCE;
     }
 }
