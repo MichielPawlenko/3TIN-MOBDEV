@@ -63,7 +63,7 @@ public class PokemonRecyclerViewAdapter extends RecyclerView.Adapter {
 
 
         TextView pokemonPrice = currentItem.findViewById(R.id.pokemonPrice);
-        pokemonPrice.setText(currentListItem.baseXp + "$");
+        pokemonPrice.setText(currentListItem.getCost() + "$");
 
     }
 

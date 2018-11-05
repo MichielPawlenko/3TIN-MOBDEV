@@ -1,9 +1,12 @@
 package com.mobdev.pxl.pokmart;
 
+import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobdev.pxl.pokmart.data.AppDatabase;
 import com.mobdev.pxl.pokmart.data.PokemonDao;
@@ -36,6 +40,21 @@ public class Shop_Start_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop__start__screen);
 
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            //Toast.makeText(this, "No location permissions", Toast.LENGTH_SHORT).show();
+            Log.e("GEO", "No location permission");
+            Toast.makeText(this, "No location permissions", Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+
         mPokemonRepo = new PokemonRepository(getApplicationContext());
 
         mCacheCounter = (TextView) findViewById(R.id.cachingCounter);
@@ -43,9 +62,8 @@ public class Shop_Start_Screen extends AppCompatActivity {
         mStartButton = (Button) findViewById(R.id.startButton);
         mLoadingBox = (LinearLayout) findViewById(R.id.loadingBox);
 
-        //getApplicationContext().deleteDatabase("pokemondb"); // TODO: DEBUG
+        //getApplicationContext().deleteDatabase("pokemon_database"); // TODO: DEBUG
         new cacheDbItems().execute();
-
     }
 
     public void sendMessage(View view) {
@@ -54,24 +72,25 @@ public class Shop_Start_Screen extends AppCompatActivity {
     }
 
     public class cacheDbItems extends AsyncTask<Void, Integer, Integer> {
-
         @Override
         protected Integer doInBackground(Void... voids) {
-            if (mPokemonRepo.getSize() != 387) { //change to 386 if API is not yet cached
+            if (mPokemonRepo.getSize() != 386) { //change to 386 if API is not yet cached
                 try {
                     Log.i("DATABASE", "Caching API...");
                     for (int x = 0; x < 386; x++) {
-                        URL url = UrlGenerator.GeneratePokemonUrl(x + 1);
-                        String jsonString = HttpResponseLoader.GetResponse(url);
-                        Pokemon item = JSONPokemonConverter.GeneratePokemon(jsonString);
-                        mPokemonRepo.addPokemon(item);
-                        publishProgress(x + 1);
-
+                        if (mPokemonRepo.getPokemonById(x + 1) == null) {
+                            URL url = UrlGenerator.GeneratePokemonUrl(x + 1);
+                            String jsonString = HttpResponseLoader.GetResponse(url);
+                            Pokemon item = JSONPokemonConverter.GeneratePokemon(jsonString);
+                            mPokemonRepo.addPokemon(item);
+                            publishProgress(x + 1);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
             return mPokemonRepo.getSize();
         }
 

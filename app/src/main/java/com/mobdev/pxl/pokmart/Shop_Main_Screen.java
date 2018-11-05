@@ -13,6 +13,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -83,17 +85,27 @@ public class Shop_Main_Screen extends AppCompatActivity {
                     }
                 });
         new loadAdapterItems().execute();
+    }
 
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_toolbar, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 mainScreenDrawer.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.cart:
+                Intent intent = new Intent(this, Shop_Cart_Screen.class);
+                startActivity(intent);
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

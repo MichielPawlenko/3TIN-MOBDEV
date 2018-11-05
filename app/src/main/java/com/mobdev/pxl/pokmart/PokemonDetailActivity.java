@@ -3,14 +3,20 @@ package com.mobdev.pxl.pokmart;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
+import com.mobdev.pxl.pokmart.utilities.ShoppingCartHelper;
 import com.mobdev.pxl.pokmart.utilities.UrlBitmapLoader;
 
 import java.net.MalformedURLException;
@@ -35,7 +41,7 @@ public class PokemonDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mPokemon = (Pokemon) intent.getSerializableExtra("pokemon");
         ((TextView) findViewById(R.id.pokemonNameTextView)).setText(mPokemon.name);
-        ((TextView) findViewById(R.id.pokemonPriceTextView)).setText(mPokemon.baseXp + "$");
+        ((TextView) findViewById(R.id.pokemonPriceTextView)).setText(mPokemon.getCost() + "$");
         String typeString = "Type: ";
         if(mPokemon.types.size() == 2) {
             typeString = "Types: " + mPokemon.types.get(0).toUpperCase() + " and " + mPokemon.types.get(1).toUpperCase();
@@ -53,6 +59,31 @@ public class PokemonDetailActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.pokemonWeight)).setText("Weight: " + mPokemon.weight / 10 + " kg");
 
         new loadPokemonImage().execute();
+    }
+
+    public void onAddToCart(View view) {
+        PokemonDetailActivity context = (PokemonDetailActivity)view.getContext();
+        ShoppingCartHelper.addPokemon(context.mPokemon);
+        Toast.makeText(this, "Pokemon added to cart.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.cart:
+                Intent intent = new Intent(this, Shop_Cart_Screen.class);
+                startActivity(intent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
