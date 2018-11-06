@@ -20,6 +20,14 @@ public class ShoppingCartHelper {
         return cart;
     }
 
+    public static void clearCart() {
+        if(cart == null) {
+            createCart();
+        }
+
+        cart.clear();
+    }
+
     public static void addPokemon(Pokemon pokemon) {
         if(cart == null) {
             createCart();
@@ -43,5 +51,13 @@ public class ShoppingCartHelper {
         }
 
         return cost;
+    }
+
+    public static int getSize() {
+        if(cart == null) {
+            return 0;
+        }
+
+        return cart.size();
     }
 }
