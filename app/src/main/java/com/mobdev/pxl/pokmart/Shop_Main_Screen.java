@@ -1,5 +1,6 @@
 package com.mobdev.pxl.pokmart;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -109,6 +110,13 @@ public class Shop_Main_Screen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+   /*     ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
+        List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(1);
+        if(taskList.get(0).baseActivity.getClass() == Shop_Checkout_Screen.class)*/
+    }
+
     public class loadAdapterItems extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -129,4 +137,5 @@ public class Shop_Main_Screen extends AppCompatActivity {
             mRecyclerView.setAdapter(mAdapter);
         }
     }
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.mobdev.pxl.pokmart.data.PokemonRepository;
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
@@ -84,9 +86,23 @@ public class PokemonListView extends AppCompatActivity {
         mAdapter = new PokemonRecyclerViewAdapter(new PokemonRecyclerViewAdapter.onItemClickListener() {
             @Override
             public void onItemClick(Pokemon item) {
-                Intent intent = new Intent(getApplicationContext(), PokemonDetailActivity.class);
-                intent.putExtra("pokemon", item);
-                startActivity(intent);
+                FrameLayout detailFragment = (FrameLayout) findViewById(R.id.detailFragment);
+                if (detailFragment != null && detailFragment.isEnabled()) {
+                    PokemonDetailFragment fragment = new PokemonDetailFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("pokemon", item);
+                    fragment.setArguments(bundle);
+
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.detailFragment, fragment);
+                    transaction.addToBackStack(null);
+
+                    transaction.commit();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), PokemonDetailActivity.class);
+                    intent.putExtra("pokemon", item);
+                    startActivity(intent);
+                }
             }
         }, mPokemonList);
 

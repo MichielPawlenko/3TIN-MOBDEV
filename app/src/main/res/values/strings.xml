@@ -12,4 +12,5 @@
     <string name="checkoutFirstName">First Name</string>
     <string name="checkoutLastName">Last Name</string>
     <string name="checkoutOrder">ORDER</string>
+    <string name="title_activity_list_fragment">ListFragment</string>
 </resources>

@@ -14,6 +14,7 @@ import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
 import com.mobdev.pxl.pokmart.utilities.ShoppingCartHelper;
 import com.mobdev.pxl.pokmart.utilities.UrlBitmapLoader;
 import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -58,6 +59,7 @@ public class PokemonCartViewAdapter extends RecyclerView.Adapter {
         pokemonName.setText(name);
 
         ImageView pokemonImage = currentItem.findViewById(R.id.pokemonListItemImage);
+        Picasso.get().load(currentListItem.sprite).into(pokemonImage);
 
         TextView pokemonPrice = currentItem.findViewById(R.id.pokemonPrice);
         pokemonPrice.setText(currentListItem.getCost() + "$");

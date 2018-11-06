@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
-        android:iconifiedByDefault="false"
         android:orientation="horizontal"
         android:queryHint="Search for Pokémon..."
         android:background="@drawable/black_border"/>

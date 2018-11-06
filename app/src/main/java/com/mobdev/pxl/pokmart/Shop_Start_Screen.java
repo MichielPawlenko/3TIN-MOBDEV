@@ -74,7 +74,7 @@ public class Shop_Start_Screen extends AppCompatActivity {
     public class cacheDbItems extends AsyncTask<Void, Integer, Integer> {
         @Override
         protected Integer doInBackground(Void... voids) {
-            if (mPokemonRepo.getSize() != 386) { //change to 386 if API is not yet cached
+            if (mPokemonRepo.getSize() < 386) { //change to 386 if API is not yet cached
                 try {
                     Log.i("DATABASE", "Caching API...");
                     for (int x = 0; x < 386; x++) {
