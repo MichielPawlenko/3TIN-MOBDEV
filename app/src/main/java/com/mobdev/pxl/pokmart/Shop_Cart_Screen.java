@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
@@ -19,14 +20,6 @@ import com.mobdev.pxl.pokmart.utilities.ShoppingCartHelper;
 import java.util.List;
 
 public class Shop_Cart_Screen extends AppCompatActivity {
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
-
-    private TextView totalTextView;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,19 +31,24 @@ public class Shop_Cart_Screen extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
 
-        totalTextView = (TextView)findViewById(R.id.cartTotal);
-        mRecyclerView = (RecyclerView)findViewById(R.id.cartList);
+        Button orderButton = (Button) findViewById(R.id.btn_placeorder);
+        if(ShoppingCartHelper.getSize() == 0) {
+            orderButton.setEnabled(false);
+        }
+
+        TextView totalTextView = (TextView) findViewById(R.id.cartTotal);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.cartList);
         totalTextView = (TextView)findViewById(R.id.cartTotal);
         totalTextView.setText("" + ShoppingCartHelper.getCost() + "$");
 
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         DividerItemDecoration divider = new DividerItemDecoration(mRecyclerView.getContext(), mLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(divider);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new PokemonCartViewAdapter(ShoppingCartHelper.getCart());
+        RecyclerView.Adapter mAdapter = new PokemonCartViewAdapter(ShoppingCartHelper.getCart());
         mRecyclerView.setAdapter(mAdapter);
     }
 

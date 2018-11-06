@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.mobdev.pxl.pokmart.utilities.FetchAddressIntentService;
+import com.mobdev.pxl.pokmart.utilities.ShoppingCartHelper;
 
 public class Shop_Checkout_Screen extends AppCompatActivity {
     private static final String CHANNEL_ID = "Pokemart";
@@ -50,7 +51,6 @@ public class Shop_Checkout_Screen extends AppCompatActivity {
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mResultReceiver = new AddressResultReceiver(new Handler());
-
 
         createNotificationChannel();
         new getUserLocation().execute();
@@ -83,6 +83,8 @@ public class Shop_Checkout_Screen extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, mBuilder.build());
 
+        ShoppingCartHelper.clearCart();
+
         Intent intent = new Intent(this, Shop_Main_Screen.class);
         startActivity(intent);
     }
@@ -106,17 +108,22 @@ public class Shop_Checkout_Screen extends AppCompatActivity {
 
     public class getUserLocation extends AsyncTask<Void, Void, Void> {
         private Location getLastBestLocation() {
-            Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
+            if (locationGPS == null) {
+                return locationNet;
+            }
+
+            if (locationNet == null) {
+                return locationGPS;
+            }
+
             long GPSLocationTime = 0;
-            if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
+            GPSLocationTime = locationGPS.getTime();
 
             long NetLocationTime = 0;
-
-            if (null != locationNet) {
-                NetLocationTime = locationNet.getTime();
-            }
+            NetLocationTime = locationNet.getTime();
 
             if ( 0 < GPSLocationTime - NetLocationTime ) {
                 return locationGPS;
@@ -134,6 +141,10 @@ public class Shop_Checkout_Screen extends AppCompatActivity {
             }
 
             mLastLocation = getLastBestLocation();
+            if (mLastLocation == null) {
+                Log.e("GEO", "Last location is null");
+                return null;
+            }
 
             // Start service and update UI to reflect new location
             startIntentService();
@@ -149,6 +160,7 @@ public class Shop_Checkout_Screen extends AppCompatActivity {
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             if (resultData == null) {
+                addressField.setText("Failed to get location.");
                 return;
             }
 
@@ -156,7 +168,7 @@ public class Shop_Checkout_Screen extends AppCompatActivity {
             // or an error message sent from the intent service.
             String mAddressOutput = resultData.getString(FetchAddressIntentService.Constants.RESULT_DATA_KEY);
             if (mAddressOutput == null) {
-                mAddressOutput = "";
+                mAddressOutput = "Failed to get location.";
             }
 
 

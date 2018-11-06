@@ -56,6 +56,9 @@ public class FetchAddressIntentService extends IntentService {
         Location location = intent.getParcelableExtra(
                 Constants.LOCATION_DATA_EXTRA);
 
+        if (location == null) {
+            return;
+        }
         // ...
 
         List<Address> addresses = null;
