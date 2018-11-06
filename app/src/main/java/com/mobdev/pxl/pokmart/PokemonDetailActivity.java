@@ -23,7 +23,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class PokemonDetailActivity extends AppCompatActivity {
-
     private Pokemon mPokemon;
 
     @Override
