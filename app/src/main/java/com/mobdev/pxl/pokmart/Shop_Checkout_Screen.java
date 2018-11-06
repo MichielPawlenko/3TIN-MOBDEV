@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobdev.pxl.pokmart.utilities.FetchAddressIntentService;
 import com.mobdev.pxl.pokmart.utilities.ShoppingCartHelper;
@@ -143,12 +144,18 @@ public class Shop_Checkout_Screen extends AppCompatActivity {
             mLastLocation = getLastBestLocation();
             if (mLastLocation == null) {
                 Log.e("GEO", "Last location is null");
+                publishProgress();
                 return null;
             }
 
             // Start service and update UI to reflect new location
             startIntentService();
             return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            Toast.makeText(Shop_Checkout_Screen.this, "Unable to get last location, try again later.", Toast.LENGTH_LONG).show();
         }
     }
 
