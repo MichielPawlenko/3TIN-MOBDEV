@@ -29,17 +29,16 @@
                 android:id="@+id/pokemonListItemText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:textSize="18dp" />
+                android:layout_weight="1"
+                android:paddingTop="5dp"
+                android:textSize="24dp" />
 
-           <TextView
+            <TextView
                 android:id="@+id/pokemonPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/pokemonPriceStyle"
                 android:layout_gravity="end"
-                android:textAlignment="viewEnd"
-                android:textSize="32dp" />
+                android:textAlignment="viewEnd" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

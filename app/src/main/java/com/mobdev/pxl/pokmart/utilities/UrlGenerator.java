@@ -17,17 +17,4 @@ public class UrlGenerator {
         }
         return null;
     }
-
-    public static URL GenerateGenerationUrl(int id) {
-        try {
-            return new URL(BASE_URL + "generation/" + id + "/");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static URL GenerateRecommendedUrl() {
-        return GeneratePokemonUrl(RANDOM_NUMBER.nextInt(750));
-    }
 }

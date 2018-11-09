@@ -39,7 +39,7 @@ public class PokemonDetailFragment extends Fragment {
             ((TextView) view.findViewById(R.id.pokemonPriceTextView)).setText(mPokemon.getCost() + "$");
             String typeString = "Type: ";
             if (mPokemon.types.size() == 2) {
-                typeString = "Types: " + mPokemon.types.get(0).toUpperCase() + " and " + mPokemon.types.get(1).toUpperCase();
+                typeString = "Types:\n" + mPokemon.types.get(0).toUpperCase() + "\n" + mPokemon.types.get(1).toUpperCase() + "\n";
             } else {
                 typeString += mPokemon.types.get(0).toUpperCase();
             }

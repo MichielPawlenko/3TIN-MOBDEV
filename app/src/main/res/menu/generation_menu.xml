@@ -16,4 +16,8 @@
         android:title="Generation 3"
         app:showAsAction="ifRoom"
         android:orderInCategory="3"/>
+    <item android:id="@+id/homeMenuItem"
+        android:title="Home"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="4"/>
 </menu>

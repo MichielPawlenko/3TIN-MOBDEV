@@ -23,6 +23,10 @@ public class PokemonRepository {
         return pokemonDao.getAll();
     }
 
+    public List<Pokemon> getPokemonByName(String name) {
+        return pokemonDao.getPokemonByName(name.toUpperCase());
+    }
+
     public void addPokemon(Pokemon pokemon) {
         pokemonDao.insert(pokemon);
     }

@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -41,7 +42,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="2dp"
-                        android:text="NAME"
                         android:textSize="26dp" />
 
                     <TextView
@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="2dp"
-                        android:text="Price"
+                        android:textColor="@color/priceColor"
                         android:textSize="24dp" />
 
                     <Button
@@ -58,8 +58,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="onAddToCart"
-                        android:text="ADD TO CART"
-                        android:textSize="20dp" />
+                        android:text="@string/addToCart"
+                        android:textSize="20dp"
+                        android:theme="@style/Theme.MaterialButton"/>
 
                 </LinearLayout>
             </LinearLayout>
