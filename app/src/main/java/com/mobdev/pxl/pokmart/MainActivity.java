@@ -1,6 +1,5 @@
 package com.mobdev.pxl.pokmart;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,10 +13,14 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.mobdev.pxl.pokmart.data.PokemonRepository;
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
@@ -27,19 +30,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Shop_Main_Screen extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    List<Pokemon> mPokemonList;
-    PokemonRepository mRepo;
+    private static List<Pokemon> mPokemonList;
+    private PokemonRepository mRepo;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager mLayoutManager;
+    private EditText mSearchTextBox;
     DrawerLayout mainScreenDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop__main__screen);
+        setContentView(R.layout.activity_main_activity);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,8 +52,28 @@ public class Shop_Main_Screen extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        mSearchTextBox = (EditText) findViewById(R.id.searchTextBox);
+        mSearchTextBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 0) {
+                    ((ImageButton) findViewById(R.id.searchButton)).setEnabled(true);
+                } else {
+                    ((ImageButton) findViewById(R.id.searchButton)).setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         mRepo = new PokemonRepository(getApplicationContext());
-        mPokemonList = new ArrayList<Pokemon>();
+        if(mPokemonList == null) {
+            mPokemonList = new ArrayList<Pokemon>();
+        }
         mainScreenDrawer = findViewById(R.id.generationDrawer);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.pokemonRecyclerView);
@@ -69,23 +93,34 @@ public class Shop_Main_Screen extends AppCompatActivity {
             }
         }, mPokemonList);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().findItem(R.id.homeMenuItem).setEnabled(false);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         mainScreenDrawer.closeDrawers();
 
-                        Context context = Shop_Main_Screen.this;
-                        Intent intent = new Intent(context, PokemonListView.class);
+                        Context context = MainActivity.this;
+                        Intent intent = new Intent(context, GenerationListActivity.class);
                         intent.putExtra("selectedItem", menuItem.getItemId());
                         intent.putExtra("generation", menuItem.getOrder());
                         startActivity(intent);
-
                         return true;
                     }
                 });
-        new loadAdapterItems().execute();
+        if(mPokemonList.size() != 3) {
+            new loadAdapterItems().execute();
+        } else {
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
+
+    public void onSearch(View view) {
+        String searchString = ((EditText) findViewById(R.id.searchTextBox)).getText().toString();
+        Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+        intent.putExtra("searchQuery", searchString);
+        startActivity(intent);
     }
 
     @Override
@@ -102,7 +137,7 @@ public class Shop_Main_Screen extends AppCompatActivity {
                 mainScreenDrawer.openDrawer(GravityCompat.START);
                 return true;
             case R.id.cart:
-                Intent intent = new Intent(this, Shop_Cart_Screen.class);
+                Intent intent = new Intent(this, CartActivity.class);
                 startActivity(intent);
                 return true;
         }
@@ -112,15 +147,16 @@ public class Shop_Main_Screen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-   /*     ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
-        List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(1);
-        if(taskList.get(0).baseActivity.getClass() == Shop_Checkout_Screen.class)*/
+        if(getIntent().getBooleanExtra("canGoBack", true)) {
+            super.onBackPressed();
+        }
     }
 
     public class loadAdapterItems extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
+
             try {
                 Random rng = new Random();
                 for (int x = 0; x < 3; x++) {
@@ -133,7 +169,7 @@ public class Shop_Main_Screen extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void nullargs) {
+        protected void onPostExecute(Void voidarg) {
             mRecyclerView.setAdapter(mAdapter);
         }
     }

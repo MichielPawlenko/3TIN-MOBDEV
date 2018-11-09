@@ -12,24 +12,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mobdev.pxl.pokmart.layout_items.Pokemon;
 import com.mobdev.pxl.pokmart.layout_items.PokemonCartViewAdapter;
-import com.mobdev.pxl.pokmart.layout_items.PokemonRecyclerViewAdapter;
 import com.mobdev.pxl.pokmart.utilities.ShoppingCartHelper;
 
-import java.util.List;
-
-public class Shop_Cart_Screen extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop__cart__screen);
+        setContentView(R.layout.activity_cart);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
+        actionbar.setTitle("Cart");
 
         Button orderButton = (Button) findViewById(R.id.btn_placeorder);
         if(ShoppingCartHelper.getSize() == 0) {
@@ -49,6 +46,14 @@ public class Shop_Cart_Screen extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         RecyclerView.Adapter mAdapter = new PokemonCartViewAdapter(ShoppingCartHelper.getCart());
+        final TextView finalTotalTextView = totalTextView;
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                finalTotalTextView.setText("" + ShoppingCartHelper.getCost() + "$");
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -59,7 +64,7 @@ public class Shop_Cart_Screen extends AppCompatActivity {
     }
 
     public void insertOrder(View view) {
-        Intent intent = new Intent(this, Shop_Checkout_Screen.class);
+        Intent intent = new Intent(this, CheckoutActivity.class);
         startActivity(intent);
     }
 }

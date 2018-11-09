@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:text="@string/checkoutFirstNameLabel" />
+
+    <EditText
+        android:id="@+id/firstNameField"
+        style="@style/checkoutTextBox"
+        android:hint="@string/checkoutFirstName"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:text="@string/checkoutLastNameLabel" />
+
+    <EditText
+        android:id="@+id/lastNameField"
+        style="@style/checkoutTextBox"
+        android:hint="@string/checkoutLastName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:text="@string/address" />
+
+    <EditText
+        android:id="@+id/addressTextView"
+        style="@style/checkoutTextBox"
+        android:hint="@string/checkoutAddress"
+        android:textSize="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:text="@string/checkoutCreditCardNumberLabel" />
+
+    <EditText
+        android:id="@+id/creditCardNumberEditBox"
+        style="@style/checkoutTextBox"
+        android:hint="@string/checkoutCardNumberHint"
+        android:maxLength="16" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:text="@string/checkoutCVVLabel" />
+
+    <EditText
+        android:id="@+id/securityNumberEditBox"
+        style="@style/checkoutTextBox"
+        android:hint="@string/checkoutSecurityNumberHint"
+        android:maxLength="3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="4dp"
+        android:text="@string/checkoutExpiryDateLabel" />
+
+    <EditText
+        android:id="@+id/expiryDateEditBox"
+        style="@style/checkoutTextBox"
+        android:hint="@string/checkoutExpiryDateHint"
+        android:maxLength="5"/>
+
+    <Button
+        android:id="@+id/orderButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:onClick="onOrderButton"
+        android:text="@string/checkoutOrder"
+        android:theme="@style/Theme.MaterialButton" />
+
+</LinearLayout>

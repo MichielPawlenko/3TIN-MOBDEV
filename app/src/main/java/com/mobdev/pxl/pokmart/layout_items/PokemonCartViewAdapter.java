@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,13 +48,12 @@ public class PokemonCartViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         PokemonCartViewAdapter.pokemonViewHolder pokemonViewHolder =
                 (PokemonCartViewAdapter.pokemonViewHolder) viewHolder;
 
         CardView currentItem = pokemonViewHolder.mListViewItem;
         final Pokemon currentListItem = pokemonCartList.get(i);
-
 
         TextView pokemonName = currentItem.findViewById(R.id.pokemonListItemText);
         String name = currentListItem.id + "# - " + currentListItem.name.toUpperCase();
@@ -63,6 +64,17 @@ public class PokemonCartViewAdapter extends RecyclerView.Adapter {
 
         TextView pokemonPrice = currentItem.findViewById(R.id.pokemonPrice);
         pokemonPrice.setText(currentListItem.getCost() + "$");
+
+        ImageButton deleteButton = currentItem.findViewById(R.id.cartItemDeleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShoppingCartHelper.deletePokemon(i);
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i, pokemonCartList.size());
+
+            }
+        });
     }
 
     @Override

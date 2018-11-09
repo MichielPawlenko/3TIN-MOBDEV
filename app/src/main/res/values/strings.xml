@@ -4,13 +4,25 @@
     <string name="title_pokemon_list">Pokemons</string>
     <string name="title_pokemon_detail">Pokemon Detail</string>
     <string name="title_activity_pokemon_list_view">PokemonListView</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="cartview_total">Total:</string>
     <string name="cartview_placeorder">Place Order</string>
-    <string name="checkoutFirstName">First Name</string>
-    <string name="checkoutLastName">Last Name</string>
+    <string name="checkoutFirstName">First Name...</string>
+    <string name="checkoutLastName">Last Name...</string>
     <string name="checkoutOrder">ORDER</string>
+    <string name="checkoutAddress">Address...</string>
     <string name="title_activity_list_fragment">ListFragment</string>
+    <string name="address">Address:</string>
+    <string name="checkoutLastNameLabel">Last Name:</string>
+    <string name="checkoutFirstNameLabel">First Name:</string>
+    <string name="checkoutCreditCardNumberLabel">Credit/Debit card number:</string>
+    <string name="checkoutCardNumberHint">e.g. 1111222233334444</string>
+    <string name="checkoutCVVLabel">Security Number (CVV):</string>
+    <string name="checkoutSecurityNumberHint">e.g. 669</string>
+    <string name="checkoutExpiryDateLabel">Expiry Date (MM/YY):</string>
+    <string name="checkoutExpiryDateHint">MM/YY</string>
+    <string name="searchResultString">Search Results:</string>
+    <string name="cachingAPI">Caching API...</string>
+    <string name="pokemonSearchHint">Search for Pokémon...</string>
+    <string name="pokemonOfTheDay">Pokémon Of The Day:</string>
+    <string name="addToCart">ADD TO CART</string>
 </resources>

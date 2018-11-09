@@ -21,6 +21,9 @@ public interface PokemonDao {
     @Query("SELECT * FROM pokemon WHERE id = :id LIMIT 1")
     Pokemon getById(int id);
 
+    @Query("SELECT * FROM pokemon WHERE name LIKE '%' || :name || '%'")
+    List<Pokemon> getPokemonByName(String name);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Pokemon pokemon);
 

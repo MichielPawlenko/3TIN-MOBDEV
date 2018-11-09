@@ -1,7 +1,6 @@
 package com.mobdev.pxl.pokmart;
 
 import android.Manifest;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -12,12 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mobdev.pxl.pokmart.data.AppDatabase;
-import com.mobdev.pxl.pokmart.data.PokemonDao;
 import com.mobdev.pxl.pokmart.data.PokemonRepository;
 import com.mobdev.pxl.pokmart.layout_items.Pokemon;
 import com.mobdev.pxl.pokmart.utilities.HttpResponseLoader;
@@ -25,10 +21,8 @@ import com.mobdev.pxl.pokmart.utilities.JSONPokemonConverter;
 import com.mobdev.pxl.pokmart.utilities.UrlGenerator;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Shop_Start_Screen extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity {
 
     private PokemonRepository mPokemonRepo;
     private Button mStartButton;
@@ -38,10 +32,13 @@ public class Shop_Start_Screen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop__start__screen);
+        setContentView(R.layout.activity_start);
 
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -62,19 +59,20 @@ public class Shop_Start_Screen extends AppCompatActivity {
         mStartButton = (Button) findViewById(R.id.startButton);
         mLoadingBox = (LinearLayout) findViewById(R.id.loadingBox);
 
-        //getApplicationContext().deleteDatabase("pokemon_database"); // TODO: DEBUG
         new cacheDbItems().execute();
     }
 
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, Shop_Main_Screen.class);
+    public void onClickStart(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("canGoBack", false);
+        intent.putExtra("selectedItem", R.id.homeMenuItem);
         startActivity(intent);
     }
 
     public class cacheDbItems extends AsyncTask<Void, Integer, Integer> {
         @Override
         protected Integer doInBackground(Void... voids) {
-            if (mPokemonRepo.getSize() < 386) { //change to 386 if API is not yet cached
+            if (mPokemonRepo.getSize() < 386) {
                 try {
                     Log.i("DATABASE", "Caching API...");
                     for (int x = 0; x < 386; x++) {
@@ -96,7 +94,7 @@ public class Shop_Start_Screen extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            mCacheCounter.setText(values[0] + " of 386");
+            mCacheCounter.setText(values[0] + "/386");
         }
 
         @Override

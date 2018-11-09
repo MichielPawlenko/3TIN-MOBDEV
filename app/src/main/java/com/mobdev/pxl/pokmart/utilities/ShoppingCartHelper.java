@@ -40,6 +40,10 @@ public class ShoppingCartHelper {
         cart.add(pokemon);
     }
 
+    public static void deletePokemon(int i) {
+        cart.remove(i);
+    }
+
     public static int getCost() {
         if(cart == null) {
             return 0;

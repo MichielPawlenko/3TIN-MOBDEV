@@ -14,7 +14,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,7 +26,7 @@ import com.mobdev.pxl.pokmart.layout_items.PokemonRecyclerViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PokemonListView extends AppCompatActivity {
+public class GenerationListActivity extends AppCompatActivity {
 
     private int mGeneration;
     private RecyclerView mRecyclerView;
@@ -41,7 +40,7 @@ public class PokemonListView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pokemon_list_view);
+        setContentView(R.layout.activity_generation_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,6 +49,7 @@ public class PokemonListView extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionbar.setTitle("Generation " + mGeneration);
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.getMenu().findItem(getIntent().getIntExtra("selectedItem", 0)).setEnabled(false);
@@ -59,13 +59,20 @@ public class PokemonListView extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         mDrawer.closeDrawers();
-
                         Context context = getApplicationContext();
-                        Intent intent = new Intent(context, PokemonListView.class);
+
+                        if(menuItem.getOrder() == 4) {
+                            Intent intent = new Intent(context, MainActivity.class);
+                            intent.putExtra("selectedItem", menuItem.getItemId());
+                            startActivity(intent);
+                            return true;
+                        }
+
+
+                        Intent intent = new Intent(context, GenerationListActivity.class);
                         intent.putExtra("selectedItem", menuItem.getItemId());
                         intent.putExtra("generation", menuItem.getOrder());
                         startActivity(intent);
-
                         return true;
                     }
                 });
@@ -95,7 +102,7 @@ public class PokemonListView extends AppCompatActivity {
 
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.detailFragment, fragment);
-                    transaction.addToBackStack(null);
+                    transaction.disallowAddToBackStack();
 
                     transaction.commit();
                 } else {
@@ -123,7 +130,7 @@ public class PokemonListView extends AppCompatActivity {
                 mDrawer.openDrawer(GravityCompat.START);
                 return true;
             case R.id.cart:
-                Intent intent = new Intent(this, Shop_Cart_Screen.class);
+                Intent intent = new Intent(this, CartActivity.class);
                 startActivity(intent);
                 return true;
         }
