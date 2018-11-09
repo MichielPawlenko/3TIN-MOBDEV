@@ -58,7 +58,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -68,15 +68,15 @@
 
             <TextView
                 android:id="@+id/pokemonType"
-                style="@style/pokemonDetailTextView" />
+                style="@style/pokemonDetailTextView.landscape" />
 
             <TextView
                 android:id="@+id/pokemonHeight"
-                style="@style/pokemonDetailTextView" />
+                style="@style/pokemonDetailTextView.landscape" />
 
             <TextView
                 android:id="@+id/pokemonWeight"
-                style="@style/pokemonDetailTextView" />
+                style="@style/pokemonDetailTextView.landscape" />
         </LinearLayout>
 
         <LinearLayout
@@ -86,7 +86,7 @@
 
             <TextView
                 android:id="@+id/pokemonAbilities"
-                style="@style/pokemonDetailTextView" />
+                style="@style/pokemonDetailTextView.landscape" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
