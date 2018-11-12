@@ -1,10 +1,12 @@
 package com.mobdev.pxl.pokmart;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -13,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -51,11 +54,17 @@ public class CheckoutActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_black);
         actionbar.setTitle("Checkout");
 
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mResultReceiver = new AddressResultReceiver(new Handler());
+
 
         createNotificationChannel();
-        new getUserLocation().execute();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            mResultReceiver = new AddressResultReceiver(new Handler());
+            new getUserLocation().execute();
+        }
     }
 
     @Override
@@ -122,8 +131,6 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Pokemart";
             String description = "Pokemon shop";
@@ -131,8 +138,6 @@ public class CheckoutActivity extends AppCompatActivity {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -140,8 +145,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public class getUserLocation extends AsyncTask<Void, Void, Void> {
         private Location getLastBestLocation() {
-            Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-            Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (locationGPS == null) {
                 return locationNet;
